@@ -1,22 +1,26 @@
 import SwiftUI
 
 struct TodaysWeatherView: View {
+    var data: WeatherPoint
+    
     var body: some View {
         VStack {
             Text("Today")
                 .font(.largeTitle)
                 .foregroundColor(.white)
             HStack {
-                Image(systemName: "sun.max")
+                Image(systemName: systemWeatherIcon(data.type))
                     .resizable()
-                    .foregroundColor(.yellow)
+                    .foregroundColor(systemWeatherColor(data.type))
                     .frame(width: 72, height: 72)
-                Text("22°")
+                    .padding(.trailing)
+                Text(String(data.temp) + "°")
                     .font(Font.system(size: 64))
                     .fontWeight(.bold)
                     .foregroundColor(.white)
+                    .padding(.leading)
             }
-            Text("Sunny")
+            Text(weatherDescription(data.type))
                 .font(.title)
                 .fontWeight(.light)
                 .foregroundColor(.white)
@@ -27,7 +31,8 @@ struct TodaysWeatherView: View {
 #if DEBUG
 struct TodaysWeatherView_Previews: PreviewProvider {
     static var previews: some View {
-        TodaysWeatherView().background(Palette.color4)
+        TodaysWeatherView(data: WeatherData().currentWeather)
+            .background(Palette.color4)
     }
 }
 #endif

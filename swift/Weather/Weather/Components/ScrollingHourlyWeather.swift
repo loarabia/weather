@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct ScrollingHourlyWeather: View {
+    var data: [WeatherPoint]
+    
     var body: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 10) {
-                ForEach(hourlyTestData, id: \.hour) { data in
+                ForEach(data, id: \.timestamp) { data in
                     HourlyWeather(data: data)
                 }
             }
@@ -17,6 +19,6 @@ struct ScrollingHourlyWeather: View {
 
 struct ScrollingHourlyWeather_Previews: PreviewProvider {
     static var previews: some View {
-        ScrollingHourlyWeather()
+        ScrollingHourlyWeather(data: WeatherData().hourlyToday)
     }
 }

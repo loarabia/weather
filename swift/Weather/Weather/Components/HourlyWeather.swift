@@ -1,18 +1,19 @@
 import SwiftUI
 
 struct HourlyWeather: View {
-    let data: Hourly
+    let data: WeatherPoint
     
     var body: some View {
-        let timeString: String = data.hour <= 12 ? "AM" : "PM"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "ha"
         
         return VStack {
-            Text(String(data.hour) + timeString)
+            Text(dateFormatter.string(from: data.timestamp))
                 .font(.caption)
                 .padding(.top)
-            Image(systemName: data.icon)
+            Image(systemName: systemWeatherIcon(data.type))
                 .resizable()
-                .padding(14)
+                .frame(width: 32, height:32)
             Text(String(data.temp) + "°")
                 .font(.callout)
                 .padding(.bottom)
@@ -27,7 +28,7 @@ struct HourlyWeather: View {
 #if DEBUG
 struct HourlyWeather_Previews: PreviewProvider {
     static var previews: some View {
-        HourlyWeather(data: hourlyTestData[0])
+        HourlyWeather(data: WeatherData().currentWeather)
     }
 }
 #endif
