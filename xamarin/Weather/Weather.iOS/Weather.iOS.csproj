@@ -140,4 +140,10 @@
     <Folder Include="Services\" />
     <Folder Include="Renderers\" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\search%402x.png" />
+    <BundleResource Include="Resources\favorites%402x.png" />
+    <BundleResource Include="Resources\search.png" />
+    <BundleResource Include="Resources\favorites.png" />
+  </ItemGroup>
 </Project>

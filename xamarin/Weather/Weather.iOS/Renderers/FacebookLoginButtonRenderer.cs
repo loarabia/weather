@@ -15,7 +15,7 @@ namespace Weather.iOS.Renderers
         protected override void OnElementChanged(ElementChangedEventArgs<View> e)
         {
             base.OnElementChanged(e);
-            if (Control == null)
+            if (Control == null && e.NewElement != null)
             {
                 var fbLoginBtnView = e.NewElement as FacebookLoginButton;
                 var fbLoginBtnCtrl = new LoginButton

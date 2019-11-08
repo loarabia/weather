@@ -7,7 +7,7 @@
 
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-            <Label Text="Favorites" HorizontalTextAlignment="Center" FontSize="Header"/>
+            <Label Text="Favorites" HorizontalTextAlignment="Center" FontSize="Title"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -2,6 +2,7 @@
 using Weather.Views;
 using Xamarin.Forms;
 
+
 namespace Weather
 {
     public partial class App : Application
@@ -12,13 +13,29 @@ namespace Weather
         {
             InitializeComponent();
             FacebookLoginService = loginService;
-            if (loginService.AccessToken == null)
+
+            // Set up the delegate for changing the view based on login/logout
+            loginService.AccessTokenChanged = delegate (string oldToken, string newToken)
             {
-                MainPage = new LoginPage();
+                if (oldToken != null && newToken == null)
+                {
+                    // We logged out
+                    MainPage = new LoginPage();
+                }
+                else if (oldToken == null && newToken != null)
+                {
+                    // We logged in
+                    MainPage = new MainPage();
+                }
+            };
+
+            if (loginService.AccessToken != null)
+            {
+                MainPage = new MainPage();
             }
             else
             {
-                MainPage = new MainPage();
+                MainPage = new LoginPage();
             }
         }
 

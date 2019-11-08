@@ -23,7 +23,7 @@ namespace Weather.Droid.Renderers
 
         protected override void OnElementChanged(ElementChangedEventArgs<View> e)
         {
-            if (Control == null)
+            if (Control == null && e.NewElement != null)
             {
                 var fbLoginBtnView = e.NewElement as FacebookLoginButton;
                 var fbLoginBtnCtrl = new Xamarin.Facebook.Login.Widget.LoginButton(ctx)
@@ -63,13 +63,19 @@ namespace Weather.Droid.Renderers
             }
 
             public void OnCancel()
-                => view.OnCancel?.Execute(null);
+            {
+                view.OnCancel?.Execute(null);
+            }
 
             public void OnError(FacebookException error)
-                => view.OnError?.Execute(error.Message);
+            {
+                view.OnError?.Execute(error.Message);
+            }
 
             public void OnSuccess(Java.Lang.Object result)
-                => view.OnSuccess?.Execute(((LoginResult)result).AccessToken.Token);
+            {
+                view.OnSuccess?.Execute(((LoginResult)result).AccessToken.Token);
+            }
         }
     }
 }

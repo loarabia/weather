@@ -6,6 +6,6 @@
     Title="Search">
 
     <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Search" HorizontalTextAlignment="Center" FontSize="Header"/>
+        <Label Text="Search" HorizontalTextAlignment="Center" FontSize="Title"/>
     </StackLayout>
 </ContentPage>
