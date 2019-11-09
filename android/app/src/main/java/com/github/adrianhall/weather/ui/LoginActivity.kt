@@ -8,10 +8,11 @@ import com.github.adrianhall.weather.R
 import com.github.adrianhall.weather.auth.AuthenticatedUser
 import com.github.adrianhall.weather.auth.FacebookLoginManager
 import kotlinx.android.synthetic.main.activity_login.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
-    private val fbManager = FacebookLoginManager()
+    private val fbManager by inject<FacebookLoginManager>()
     private val vm by viewModel<LoginViewModel>()
 
     /**
@@ -50,6 +51,7 @@ class LoginActivity : AppCompatActivity() {
     private fun moveToNextActivity(user: AuthenticatedUser) {
         vm.setUser(user)
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     private fun displayAlert(error: Exception?) {

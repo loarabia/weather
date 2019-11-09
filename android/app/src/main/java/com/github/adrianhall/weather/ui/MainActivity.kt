@@ -1,7 +1,10 @@
 package com.github.adrianhall.weather.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.annotation.IdRes
@@ -10,12 +13,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.github.adrianhall.weather.R
+import com.github.adrianhall.weather.auth.FacebookLoginManager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var fragmentList: HashMap<Int, Fragment>
     private lateinit var buttonText: HashMap<Int, Int>
+    private val vm = viewModel<LoginViewModel>()
+    private val fbManager by inject<FacebookLoginManager>()
 
     /**
      * Android lifecycle - called when the activity is created.
@@ -46,10 +54,34 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Given a specific ID, we need to
-    //  1) Replace any fragment that is displayed now
-    //  2) Disable the current button and enable the others
-    //  5) Set the title of the page
+    /**
+     * Android lifecycle - hydrates the icons in the action bar
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.signout_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_signout -> {
+                fbManager.signOut()
+                vm.value.clearUser()
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    /**
+     *  Given a specific ID, we need to
+     *  1) Replace any fragment that is displayed now
+     *  2) Disable the current button and enable the others
+     *  3) Set the title of the page
+     */
     private fun setCurrentFragmentTo(@IdRes id: Int) {
         val newFragment = fragmentList[id]!!
 

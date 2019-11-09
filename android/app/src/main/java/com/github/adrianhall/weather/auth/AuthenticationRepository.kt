@@ -15,4 +15,8 @@ class AuthenticationRepository {
     fun setAuthenticatedUser(user: AuthenticatedUser) {
         mUser.postValue(user)
     }
+
+    fun clearAuthenticatedUser() {
+        mUser.postValue(null)
+    }
 }

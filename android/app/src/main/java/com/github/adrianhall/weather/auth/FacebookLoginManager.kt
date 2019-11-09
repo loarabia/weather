@@ -96,6 +96,13 @@ class FacebookLoginManager : AuthenticationManager {
     }
 
     /**
+     * Signs out of the facebook login service
+     */
+    override fun signOut() {
+        fbLoginManager.logOut()
+    }
+
+    /**
      * Retrieve the profile of the user
      *
      * @param accessToken the Facebook access token

@@ -7,4 +7,5 @@
     <string name="fb_login_protocol_scheme">fb426629028238436</string>
     <string name="tab_search">Search</string>
     <string name="tab_favorites">Favorites</string>
+    <string name="sign_out">Sign out</string>
 </resources>

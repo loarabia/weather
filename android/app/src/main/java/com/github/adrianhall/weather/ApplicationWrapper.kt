@@ -3,6 +3,7 @@ package com.github.adrianhall.weather
 import android.app.Application
 import com.facebook.FacebookSdk
 import com.github.adrianhall.weather.auth.AuthenticationRepository
+import com.github.adrianhall.weather.auth.FacebookLoginManager
 import com.github.adrianhall.weather.ui.FavoritesViewModel
 import com.github.adrianhall.weather.ui.LoginViewModel
 import com.github.adrianhall.weather.ui.SearchViewModel
@@ -17,6 +18,7 @@ import timber.log.Timber
 class ApplicationWrapper : Application() {
     companion object {
         val services = module {
+            single { FacebookLoginManager() }
             single { AuthenticationRepository() }
         }
 

@@ -9,7 +9,17 @@ import com.github.adrianhall.weather.auth.AuthenticationRepository
  */
 class LoginViewModel(private val repository: AuthenticationRepository): ViewModel() {
     /**
+     * Allows you to watch the authenticated user through an observable.
+     */
+    val user = repository.user
+
+    /**
      * Sets the authenticated user within the repository
      */
     fun setUser(user: AuthenticatedUser) = repository.setAuthenticatedUser(user)
+
+    /**
+     * Clears the authenticated user within the repositoru
+     */
+    fun clearUser() = repository.clearAuthenticatedUser()
 }

@@ -39,4 +39,9 @@ interface AuthenticationManager {
      * This will handle the response.  Call this from your LoginActivity onActivityResult() method.
      */
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+
+    /**
+     * Signs out of the provider
+     */
+    fun signOut()
 }
