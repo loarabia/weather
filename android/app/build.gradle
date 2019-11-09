@@ -49,4 +49,7 @@ dependencies {
     implementation 'org.koin:koin-android-viewmodel:2.0.1'
     // Logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
 }

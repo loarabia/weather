@@ -7,10 +7,16 @@ import androidx.appcompat.app.AlertDialog
 import com.github.adrianhall.weather.R
 import com.github.adrianhall.weather.auth.AuthenticatedUser
 import com.github.adrianhall.weather.auth.FacebookLoginManager
+import kotlinx.android.synthetic.main.activity_login.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
     private val fbManager = FacebookLoginManager()
+    private val vm by viewModel<LoginViewModel>()
 
+    /**
+     * Android lifecycle - called when the activity is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -19,24 +25,30 @@ class LoginActivity : AppCompatActivity() {
             .onSuccess { user -> moveToNextActivity(user) }
             .onError   { error -> displayAlert(error) }
 
-        // TODO: Layout for the login activity, which includes the facebookLoginButton
-        //facebookLoginButton.setOnClickListener {
-        //    fbManager.beginInteractiveSignin(this@LoginActivity)
-        //}
+        facebookLoginButton.setOnClickListener {
+            fbManager.beginInteractiveSignin(this@LoginActivity)
+        }
     }
 
+    /**
+     * Android lifecycle - called once the activity is ready for input
+     */
     override fun onResume() {
         super.onResume()
         fbManager.beginSilentSignin(this)
     }
 
+    /**
+     * Android lifecycle - called when the control has switched to another activity so that
+     * "information" can be gathered, and that "information" is returned.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         fbManager.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun moveToNextActivity(user: AuthenticatedUser) {
-        // TODO: Store the authenticated user in the AuthenticationRepository
+        vm.setUser(user)
         startActivity(Intent(this, MainActivity::class.java))
     }
 
