@@ -1,0 +1,68 @@
+package com.github.adrianhall.weather.models
+
+import android.location.Address
+import android.location.Location
+import android.location.LocationManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import java.util.*
+
+/**
+ * The model for the favorites.  This provides the longitude / latitude / display name and
+ * current location flag.  We have a "dataHasChanged" observable that is triggered when
+ * anything is changed.
+ */
+class FavoriteCity {
+    private var mDateChanged: MutableLiveData<Date?> = MutableLiveData()
+    val dataHasChanged: LiveData<Date?> = mDateChanged
+
+    var latitude: Double = 0.0
+        private set
+
+    var longitude: Double = 0.0
+        private set
+
+    var displayName: String = ""
+        private set
+
+    var isCurrentLocation: Boolean = false
+        private set
+
+    /**
+     * Basic constructor
+     */
+    constructor(latitude: Double = 0.0, longitude: Double = 0.0, displayName: String = "") {
+        this.latitude = latitude
+        this.longitude = longitude
+        this.displayName = displayName
+    }
+
+    /**
+     * Sets the location based on a location - use geocoding to set the display name.
+     */
+    fun setLocation(location: Location, name: String, isActive: Boolean = false) {
+        latitude = location.latitude
+        longitude = location.longitude
+        displayName = name
+        isCurrentLocation = isActive
+        notifyDataHasChanged()
+    }
+
+    /**
+     * Sets the location based on an address
+     */
+    fun setLocation(address: Address, isActive: Boolean = false) {
+        latitude = address.latitude
+        longitude = address.longitude
+        displayName = "${address.locality}, ${address.countryName}"
+        isCurrentLocation = isActive
+        notifyDataHasChanged()
+    }
+
+    /**
+     * Notify the observers that the data has changed.
+     */
+    private fun notifyDataHasChanged() {
+        mDateChanged.postValue(Date())
+    }
+}
