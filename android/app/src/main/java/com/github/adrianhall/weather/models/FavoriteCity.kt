@@ -65,4 +65,11 @@ class FavoriteCity {
     private fun notifyDataHasChanged() {
         mDateChanged.postValue(Date())
     }
+
+    /**
+     * Returns the ID of the locality
+     */
+    fun toLocationString(): String {
+        return "%.5f,%.5f".format(latitude,longitude)
+    }
 }

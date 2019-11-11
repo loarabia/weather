@@ -4,6 +4,7 @@ import android.app.Application
 import com.facebook.FacebookSdk
 import com.github.adrianhall.weather.auth.AuthenticationRepository
 import com.github.adrianhall.weather.auth.FacebookLoginManager
+import com.github.adrianhall.weather.repositories.FavoritesRepository
 import com.github.adrianhall.weather.ui.FavoritesViewModel
 import com.github.adrianhall.weather.ui.LoginViewModel
 import org.koin.android.ext.koin.androidContext
@@ -19,11 +20,12 @@ class ApplicationWrapper : Application() {
         val services = module {
             single { FacebookLoginManager() }
             single { AuthenticationRepository() }
+            single { FavoritesRepository(get()) }
         }
 
         val viewModels = module {
             viewModel { LoginViewModel(get())  }
-            viewModel { FavoritesViewModel()   }
+            viewModel { FavoritesViewModel(get())   }
         }
     }
 
