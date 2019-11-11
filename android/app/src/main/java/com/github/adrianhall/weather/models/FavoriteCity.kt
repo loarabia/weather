@@ -54,7 +54,11 @@ class FavoriteCity {
     fun setLocation(address: Address, isActive: Boolean = false) {
         latitude = address.latitude
         longitude = address.longitude
-        displayName = "${address.locality}, ${address.countryName}"
+        if (address.countryCode == "US") {
+            displayName = "${address.locality}, USA"
+        } else {
+            displayName = "${address.locality}, ${address.countryName}"
+        }
         isCurrentLocation = isActive
         notifyDataHasChanged()
     }
