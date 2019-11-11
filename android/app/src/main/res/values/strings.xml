@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">Weather</string>
     <string name="signInWithFacebook">Sign in with Facebook</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_favorites">Favorites</string>
+    <string name="sign_out">Sign out</string>
+    <string name="search_hint">City or locality</string>
+    <string name="locality_format">%1$s, %2$s</string>
+    <string name="location_format">%1$.5f, %2$.5f</string>
 
     <!-- Facebook SDK Requirements -->
     <string name="facebook_app_id">426629028238436</string>
     <string name="fb_login_protocol_scheme">fb426629028238436</string>
-    <string name="tab_search">Search</string>
-    <string name="tab_favorites">Favorites</string>
-    <string name="sign_out">Sign out</string>
 </resources>

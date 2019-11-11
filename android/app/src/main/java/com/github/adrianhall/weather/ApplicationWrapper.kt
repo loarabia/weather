@@ -6,7 +6,6 @@ import com.github.adrianhall.weather.auth.AuthenticationRepository
 import com.github.adrianhall.weather.auth.FacebookLoginManager
 import com.github.adrianhall.weather.ui.FavoritesViewModel
 import com.github.adrianhall.weather.ui.LoginViewModel
-import com.github.adrianhall.weather.ui.SearchViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.android.viewmodel.dsl.viewModel
@@ -25,7 +24,6 @@ class ApplicationWrapper : Application() {
         val viewModels = module {
             viewModel { LoginViewModel(get())  }
             viewModel { FavoritesViewModel()   }
-            viewModel { SearchViewModel()      }
         }
     }
 
