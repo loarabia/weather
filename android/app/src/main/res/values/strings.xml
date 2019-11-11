@@ -7,6 +7,7 @@
     <string name="search_hint">City or locality</string>
     <string name="locality_format">%1$s, %2$s</string>
     <string name="location_format">%1$.5f, %2$.5f</string>
+    <string name="nav_details">Go to details</string>
 
     <!-- Facebook SDK Requirements -->
     <string name="facebook_app_id">426629028238436</string>
