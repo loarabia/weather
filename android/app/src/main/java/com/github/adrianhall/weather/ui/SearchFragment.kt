@@ -1,5 +1,6 @@
 package com.github.adrianhall.weather.ui
 
+import android.app.Activity
 import android.location.Geocoder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.github.adrianhall.weather.R
 import com.github.adrianhall.weather.ext.onTextChanged
+import com.github.adrianhall.weather.models.FavoriteCity
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import timber.log.Timber
@@ -54,6 +56,8 @@ class SearchFragment : Fragment(), TabFragment {
         // Initialize the recylerview with no contents
         searchResultsAdapter = SearchResultsAdapter { address ->
             Timber.d("Clicked on address: ${address.locality}, ${address.countryName}")
+            val city = FavoriteCity().apply { setLocation(address, false) }
+            DetailsActivity.startActivity(activity as Activity, city)
         }
         val searchResultsView = view.findViewById<RecyclerView>(R.id.search_results_view)
         searchResultsView.adapter = searchResultsAdapter

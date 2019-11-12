@@ -1,5 +1,6 @@
 package com.github.adrianhall.weather.ui
 
+import android.app.Activity
 import android.content.Context
 import android.location.Geocoder
 import android.location.Location
@@ -39,7 +40,7 @@ class FavoritesFragment : Fragment(), TabFragment, LocationListener {
         // Initialize the recylerview with no contents
         favoritesAdapter = FavoritesAdapter { entry ->
             Timber.d("Clicked on entry: ${entry.displayName}")
-            // TODO: add navigation to the details page
+            DetailsActivity.startActivity(activity as Activity, entry)
         }
         val rv = view.findViewById<RecyclerView>(R.id.favorites_list)
         rv.adapter = favoritesAdapter

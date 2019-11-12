@@ -1,20 +1,16 @@
 package com.github.adrianhall.weather.repositories
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.github.adrianhall.weather.models.FavoriteCity
+import com.github.adrianhall.weather.services.StorageService
 import timber.log.Timber
 
-class FavoritesRepository(context: Context) {
-    companion object {
-        private var PREFS_FILE = FavoritesRepository::class.java.canonicalName + ".prefs"
-    }
+class FavoritesRepository(private val storageService: StorageService) {
     private val mapper = ObjectMapper().registerKotlinModule()
-    private val preferences = context.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE)
     private var mFavorites: MutableLiveData<List<FavoriteCity>> = MutableLiveData()
     var favoriteCities: LiveData<List<FavoriteCity>> = mFavorites
 
@@ -30,16 +26,19 @@ class FavoritesRepository(context: Context) {
      */
     private fun loadCities() {
         Timber.d("BEGIN: Loading cities from backing store")
-        val jsonStr = preferences.getString("cities", "")
-        if (jsonStr != null && jsonStr != "") {
-            Timber.d("Loaded some cities - converting to objects")
-            val cities = mapper.readValue<List<FavoriteCity>>(jsonStr)
-            mFavorites.postValue(cities)
-        } else {
-            Timber.d("No cities found - adding some temporary test ones")
-            val seattle = FavoriteCity(47.60357, -122.32945, "Seattle, USA")
-            val london = FavoriteCity(51.509865, -0-0.118092, "London, UK")
-            mFavorites.postValue(listOf(seattle, london))
+        storageService.loadJson { jsonStr, error ->
+            if (error != null) {
+                Timber.e(error)
+            }
+            if (error == null && jsonStr != null) {
+                val cities = mapper.readValue<List<FavoriteCity>>(jsonStr)
+                mFavorites.postValue(cities)
+            } else {
+                // Fall-through for no data / errors
+                val seattle = FavoriteCity(47.60357, -122.32945, "Seattle, USA")
+                val london = FavoriteCity(51.509865, -0 - 0.118092, "London, UK")
+                mFavorites.postValue(listOf(seattle, london))
+            }
         }
         Timber.d("END: Loading cities from backing store")
     }
@@ -52,7 +51,9 @@ class FavoritesRepository(context: Context) {
         Timber.d("BEGIN: Saving cities to backing store")
         val jsonStr = mapper.writeValueAsString(cities)
         Timber.d("JSON = $jsonStr")
-        preferences.edit().putString("cities", jsonStr).apply()
+        storageService.saveJson(jsonStr) { error ->
+            if (error != null) Timber.e(error)
+        }
         Timber.d("END: Saving cities to backing store")
     }
 
