@@ -15,6 +15,8 @@ Underneath, there is a StorageService (which is represented by an interface or p
 
 ## Your Job
 
+Your first job is to ensure that you can compile and run the application "as is".  This will ensure that your environment is correctly set up for the tasks ahead.
+
 Write a backend that loads and stores the favorites list in the Azure cloud.
 
 * Your backend must support multiple users, as defined by the Facebook Access Token.
