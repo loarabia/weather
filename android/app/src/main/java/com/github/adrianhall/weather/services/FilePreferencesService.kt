@@ -1,6 +1,7 @@
 package com.github.adrianhall.weather.services
 
 import android.content.Context
+import timber.log.Timber
 
 /**
  * Implementation of the Storage Service which loads and saves
@@ -16,6 +17,7 @@ class FilePreferencesService(context: Context): StorageService {
      * Data is null if there is no error, and no data either.
      */
     override fun loadJson(callback: (String?, Exception?) -> Unit) {
+        Timber.d("Loading JSON")
         val json = preferences.getString("cities", null)
         callback.invoke(json, null)
     }
@@ -24,6 +26,7 @@ class FilePreferencesService(context: Context): StorageService {
      * Asynchronous saving of data.  Exception is null if there is no error.
      */
     override fun saveJson(json: String, callback: (Exception?) -> Unit) {
+        Timber.d("Saving JSON")
         try {
             preferences.edit().putString("cities", json).apply()
             callback.invoke(null)

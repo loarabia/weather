@@ -7,6 +7,8 @@ import com.github.adrianhall.weather.auth.FacebookLoginManager
 import com.github.adrianhall.weather.repositories.FavoritesRepository
 import com.github.adrianhall.weather.services.FilePreferencesService
 import com.github.adrianhall.weather.services.StorageService
+import com.github.adrianhall.weather.services.WeatherService
+import com.github.adrianhall.weather.ui.DetailsViewModel
 import com.github.adrianhall.weather.ui.FavoritesViewModel
 import com.github.adrianhall.weather.ui.LoginViewModel
 import org.koin.android.ext.koin.androidContext
@@ -21,14 +23,16 @@ class ApplicationWrapper : Application() {
     companion object {
         val services = module {
             single { FacebookLoginManager() }
+            single { WeatherService(get()) }
             single { FilePreferencesService(get()) as StorageService }
             single { AuthenticationRepository() }
             single { FavoritesRepository(get()) }
         }
 
         val viewModels = module {
-            viewModel { LoginViewModel(get())  }
-            viewModel { FavoritesViewModel(get())   }
+            viewModel { LoginViewModel(get())     }
+            viewModel { FavoritesViewModel(get()) }
+            viewModel { DetailsViewModel(get(), get())   }
         }
     }
 

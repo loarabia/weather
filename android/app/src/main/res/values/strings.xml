@@ -9,8 +9,7 @@
     <string name="location_format">%1$.5f, %2$.5f</string>
     <string name="nav_details">Go to details</string>
     <string name="favorite_type">GPS or Favorite?</string>
-
-    <!-- Facebook SDK Requirements -->
-    <string name="facebook_app_id">426629028238436</string>
-    <string name="fb_login_protocol_scheme">fb426629028238436</string>
+    <string name="alerts_indicator">Alerts indicator</string>
+    <string name="favorite_button">Favorite button</string>
+    <string name="current_conditions">Current conditions</string>
 </resources>

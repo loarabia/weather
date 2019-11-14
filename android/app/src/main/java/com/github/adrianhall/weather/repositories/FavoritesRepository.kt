@@ -61,8 +61,10 @@ class FavoritesRepository(private val storageService: StorageService) {
      * Add an item to the favorites list
      */
     fun addCity(city: FavoriteCity) {
+        Timber.d("AddCity: city = ${city.displayName}")
         // Check to see if the location already exists
         if (cityIsFavorite(city)) {
+            Timber.d("City is already in the list")
             return
         }
 
@@ -82,8 +84,10 @@ class FavoritesRepository(private val storageService: StorageService) {
      * Remove an item from the favorites list
      */
     fun removeCity(city: FavoriteCity) {
+        Timber.d("AddCity: city = ${city.displayName}")
         // Check to see if the location exists
         if (!cityIsFavorite(city)) {
+            Timber.d("City is not in the list...")
             return
         }
 

@@ -2,7 +2,6 @@ package com.github.adrianhall.weather.models
 
 import android.location.Address
 import android.location.Location
-import android.location.LocationManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import java.util.*
@@ -28,9 +27,6 @@ class FavoriteCity {
     var isCurrentLocation: Boolean = false
         private set
 
-    /**
-     * Basic constructor
-     */
     constructor(latitude: Double = 0.0, longitude: Double = 0.0, displayName: String = "") {
         this.latitude = latitude
         this.longitude = longitude
