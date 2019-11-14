@@ -1,6 +1,7 @@
 package com.github.adrianhall.weather.services
 
 import android.content.Context
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.github.adrianhall.weather.R
@@ -47,6 +48,8 @@ class WeatherService(context: Context) {
                     val body: String? = response.body?.string()
                     if (body != null) {
                         try {
+                            // Ignore things we don't want to understand.
+                            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                             val weather = mapper.readValue(body, Weather::class.java)
                             callback.invoke(weather, null)
                         } catch (error: Exception) {

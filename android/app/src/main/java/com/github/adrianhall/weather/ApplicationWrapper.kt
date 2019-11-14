@@ -26,7 +26,7 @@ class ApplicationWrapper : Application() {
             single { WeatherService(get()) }
             single { FilePreferencesService(get()) as StorageService }
             single { AuthenticationRepository() }
-            single { FavoritesRepository(get()) }
+            single { FavoritesRepository(get(), get()) }
         }
 
         val viewModels = module {

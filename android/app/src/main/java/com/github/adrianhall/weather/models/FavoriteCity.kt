@@ -4,6 +4,7 @@ import android.location.Address
 import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.util.*
 
 /**
@@ -13,6 +14,8 @@ import java.util.*
  */
 class FavoriteCity {
     private var mDateChanged: MutableLiveData<Date?> = MutableLiveData()
+
+    @JsonIgnore
     val dataHasChanged: LiveData<Date?> = mDateChanged
 
     var latitude: Double = 0.0
@@ -24,6 +27,7 @@ class FavoriteCity {
     var displayName: String = ""
         private set
 
+    @JsonIgnore
     var isCurrentLocation: Boolean = false
         private set
 

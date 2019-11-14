@@ -2,14 +2,16 @@ package com.github.adrianhall.weather.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import com.github.adrianhall.weather.auth.AuthenticationRepository
 import com.github.adrianhall.weather.models.FavoriteCity
 import com.github.adrianhall.weather.services.StorageService
 import timber.log.Timber
 
-class FavoritesRepository(private val storageService: StorageService) {
+class FavoritesRepository(private val storageService: StorageService, private val authenticationRepository: AuthenticationRepository) {
     private val mapper = ObjectMapper().registerKotlinModule()
     private var mFavorites: MutableLiveData<List<FavoriteCity>> = MutableLiveData()
     var favoriteCities: LiveData<List<FavoriteCity>> = mFavorites
@@ -26,11 +28,15 @@ class FavoritesRepository(private val storageService: StorageService) {
      */
     private fun loadCities() {
         Timber.d("BEGIN: Loading cities from backing store")
-        storageService.loadJson { jsonStr, error ->
+        val accessToken = authenticationRepository.user.value!!.accessToken
+
+        storageService.loadJson(accessToken) { jsonStr, error ->
             if (error != null) {
                 Timber.e(error)
             }
             if (error == null && jsonStr != null) {
+                // Ignore things we don't want to understand.
+                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 val cities = mapper.readValue<List<FavoriteCity>>(jsonStr)
                 mFavorites.postValue(cities)
             } else {
@@ -49,9 +55,10 @@ class FavoritesRepository(private val storageService: StorageService) {
      */
     private fun saveCities(cities: List<FavoriteCity>) {
         Timber.d("BEGIN: Saving cities to backing store")
+        val accessToken = authenticationRepository.user.value!!.accessToken
         val jsonStr = mapper.writeValueAsString(cities)
         Timber.d("JSON = $jsonStr")
-        storageService.saveJson(jsonStr) { error ->
+        storageService.saveJson(jsonStr, accessToken) { error ->
             if (error != null) Timber.e(error)
         }
         Timber.d("END: Saving cities to backing store")
@@ -84,7 +91,7 @@ class FavoritesRepository(private val storageService: StorageService) {
      * Remove an item from the favorites list
      */
     fun removeCity(city: FavoriteCity) {
-        Timber.d("AddCity: city = ${city.displayName}")
+        Timber.d("RemoveCity: city = ${city.displayName}")
         // Check to see if the location exists
         if (!cityIsFavorite(city)) {
             Timber.d("City is not in the list...")

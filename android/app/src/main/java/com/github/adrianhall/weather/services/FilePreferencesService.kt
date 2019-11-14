@@ -16,7 +16,7 @@ class FilePreferencesService(context: Context): StorageService {
      * Asynchronous loading of data.  Exception is null if there is no error.
      * Data is null if there is no error, and no data either.
      */
-    override fun loadJson(callback: (String?, Exception?) -> Unit) {
+    override fun loadJson(accessToken: String, callback: (String?, Exception?) -> Unit) {
         Timber.d("Loading JSON")
         val json = preferences.getString("cities", null)
         callback.invoke(json, null)
@@ -25,7 +25,7 @@ class FilePreferencesService(context: Context): StorageService {
     /**
      * Asynchronous saving of data.  Exception is null if there is no error.
      */
-    override fun saveJson(json: String, callback: (Exception?) -> Unit) {
+    override fun saveJson(json: String, accessToken: String, callback: (Exception?) -> Unit) {
         Timber.d("Saving JSON")
         try {
             preferences.edit().putString("cities", json).apply()
