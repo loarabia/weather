@@ -46,3 +46,47 @@ Plan right now is to mock up two pieces.
 3. Actually storing data
 
 Will leave logging and identity security for later efforts.
+
+# Day 2 - more research on security
+
+## 0730-0830
+
+Trying to research what to do with a Facebook Access Token and refresh.
+
+Refresh seems like i'll start getting HTTP 190s at some point and will have to ask for reauth. This might be around 60 days. Need to learn more. Keep seeing and hearing about JWTs and started thinking that KeyVault Secrets would be the right place to be. None of the keyvault docs discuss JWTs and I haven't found any real info on common auth flows either in the docs yet. 
+
+There appear to be literally no code samples on KeyVault.
+
+There are a lot of how to's but they don't appear useful or on the topics im thinking about (best practices for securing the info like tokens related to logins and refreshing it).
+
+Maybe im overcomplicating this. I don't need API access but instead just a simple identity based on user access with no other permissions granted.
+
+🔲 SIDENOTE: Need to handle my own App's secrets from FB.
+
+What FB gives me:
+
+```
+{
+    status: 'connected',
+    authResponse: {
+        accessToken: '{access-token}',
+        expiresIn:'{unix-timestamp}',
+        reauthorize_required_in:'{seconds-until-token-expires}',
+        signedRequest:'{signed-parameter}',
+        userID:'{user-id}'
+    }
+}
+```
+
+userID becomes likely a container name in my current model.
+
+The other fields I want to put into a blob called `ACCESS`
+
+FB JS SDK may by default put acccess token as a secure cookie which might be okay for me meaning i only need the userid. Need to read more. Oh god even FB only lightly documents this.
+
+Assuming the token is stored in a cookie with an expiration, then on the flask side my current POR is 
+
+I'm probably going too deep down the rabbit hole bcause I'm designing this right now so that if someone signs in once on one browser and then signs in with another browser it will work.
+
+Flask-Social appears to make this easy but there is a lot of magic. Would still like to know what's going on inside. 
+https://pythonhosted.org/Flask-Social/ 
